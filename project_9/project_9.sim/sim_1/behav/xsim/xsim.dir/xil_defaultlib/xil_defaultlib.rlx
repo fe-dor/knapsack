@@ -1,0 +1,14 @@
+0.7
+2020.2
+Oct 14 2022
+05:20:55
+C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/counter.v,1676665603,verilog,,C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/debouncer.v,,counter,,,,,,,,
+C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/debouncer.v,1676903816,verilog,,C:/Users/paras/.Xilinx/project_9/project_9.srcs/sources_1/new/fsm.v,,debouncer,,,,,,,,
+C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/synchronizer.v,1669636563,verilog,,C:/Users/paras/.Xilinx/project_9/project_9.srcs/sim_1/new/test_circuit_0.v,,synchronizer,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.sim/sim_1/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sim_1/new/test_circuit.v,1678281944,verilog,,,,test_circuit,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sim_1/new/test_circuit_0.v,1679845132,verilog,,,,test_circuit_0,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sim_1/new/test_circuit_2.v,1678650852,verilog,,,,test_circuit_2,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sources_1/new/circuit.v,1679834615,verilog,,C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/counter.v,,circuit,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sources_1/new/fsm.v,1679177625,verilog,,C:/Users/paras/.Xilinx/project_9/project_9.srcs/sources_1/new/indicator_control.v,,fsm,,,,,,,,
+C:/Users/paras/.Xilinx/project_9/project_9.srcs/sources_1/new/indicator_control.v,1678136944,verilog,,C:/Users/paras/.Xilinx/project_8/project_8.srcs/sources_1/imports/new/synchronizer.v,,indicator_control,,,,,,,,
