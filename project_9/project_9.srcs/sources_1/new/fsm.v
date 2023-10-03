@@ -36,7 +36,15 @@ reg [6:0] res;
 reg [3:0]g;
 reg [3:0]h; 
 
-reg [2:0] state;
+reg [7:0] loc_inc;
+reg [7:0] loc_inc1;
+reg [7:0] s1_a;
+reg [7:0] s2_a;
+reg [7:0] s3_a;
+
+reg [3:0] state;
+reg [3:0] loc_state;
+reg s1_state;
 reg ready;
 
 
@@ -51,7 +59,14 @@ h = 0;
 total_weight = 0;
 R_O = 0;
 state = 3'b000;
+loc_state = 3'b000;
 ready = 0;
+loc_inc = 0;
+loc_inc1 = 0;
+s1_a = 0;
+s2_a = 0;
+s3_a = 0;
+s1_state = 0;
 end
 
 //—осто€ние 0
@@ -86,48 +101,78 @@ always@(posedge clk)
         
         if(state == 1 && ready == 1)
                 begin
-                    if (c == 0 || d == 0)
-                        begin
-                            K[d][c] <= 0;      
-                        end
-                    else 
-                        begin
-                            if(w[(4*c - 1)-:4] <= d) //d=w, c=i
-                                begin
-                                    if ( (p[(4*c - 1)-:4] + K[d - w[(4*c - 1)-:4]][c-1]) >= K[d][c-1] )
-                                        begin
-                                            K[d][c] <= p[(4*c - 1)-:4] + K[d - w[(4*c - 1)-:4]][c-1];
-                                        end
-                                    else
-                                        begin
-                                            K[d][c] <= K[d][c-1]; 
-                                        end    
-                                end
-                            else
-                                begin
-                                    K[d][c] <= K[d][c-1];
-                                end    
-                        end      
-                    if(d >= W)
-                        begin
-                            d <= 0;
-                            if(c >= N)
-                                begin
-                                    c <= 0;
-                                    g <= c;
-                                    h <= d;
-                                    state <= 2;
-                                end
-                            else
-                                begin
-                                    c <= c + 1; //пон€ть что здесь
-                                end    
-                        end
-                    else
-                        begin
-                            d <= d + 1;
-                        end
-                end 
+                    if (s1_state == 0)
+						begin
+							if (c == 0 || d == 0)
+								begin
+									K[d][c] <= 0;
+									s1_state <= 1;									
+								end
+							else 
+								begin
+									if (loc_state == 0)
+										begin
+											loc_inc <= 4*c - 1;
+											loc_state <= 1;
+											loc_inc1 <= c - 1;
+										end
+									if (loc_state == 1)
+										begin
+											s1_a <= d - w[loc_inc-:4];
+											loc_state <= 2;
+										end	
+									if (loc_state == 2)
+										begin
+											s2_a <= p[loc_inc-:4] + K[s1_a][loc_inc1];
+											s3_a <= K[d][loc_inc1];
+											loc_state <= 3;
+										end		
+									if(loc_state == 3) 
+										begin
+										if(w[loc_inc-:4] <= d) //d=w, c=i
+											begin
+												if ( s2_a >= s3_a )
+													begin
+														K[d][c] <= s2_a;
+													end
+												else
+													begin
+														K[d][c] <= s3_a; 
+													end    
+											end
+										else
+											begin
+												K[d][c] <= s3_a;
+											end 
+										loc_state <= 0;	
+										s1_state <= 1;
+										end	
+								end 
+						end	
+					if (s1_state == 1)
+						begin
+							if(d >= W)
+								begin
+									d <= 0;
+									if(c >= N)
+										begin
+											c <= 0;
+											g <= c;
+											h <= d;
+											state <= 2;
+										end
+									else
+										begin
+											c <= c + 1; //понять что здесь
+										end    
+								end
+							else
+								begin
+									d <= d + 1;
+								end
+							s1_state <= 0;	
+						end
+                end	
         
         if(state == 2)
             begin
@@ -172,13 +217,21 @@ always@(posedge clk)
                 c <= 5'b00000;
                 d <= 5'b00000;
                 res <= 7'b0000000;
+                state <= 7;
+            end  
+        if (state == 7 && reset == 1)
+            begin
                 a <= 8'b00000000;
                 g <= 0;
                 h <= 0;
+                state <= 8;
+            end
+        if (state == 8 && reset == 1)
+            begin
                 total_weight <= 0;
-                state <= 3'b000;
                 ready <= 0;
-            end           
+                state <= 9;
+            end                          
     end
        
 endmodule
